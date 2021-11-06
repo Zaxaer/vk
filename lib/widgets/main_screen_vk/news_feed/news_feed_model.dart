@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:vk_example/domain/api_client/api_client.dart';
 import 'package:vk_example/domain/entity/new_feed.dart';
 
-class MainScreenModel extends ChangeNotifier {
+class NewsFeedWidgetModel extends ChangeNotifier {
   final _apiClient = ApiClient();
   NewsFeed? _newsFeed;
   final _item = <Item>[];

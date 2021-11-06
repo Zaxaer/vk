@@ -20,7 +20,7 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
   int _selectedIndex = 0;
   static final infoLoad = ProfileModel();
   static final listFriends = MyListFriendModel();
-  static final newsFeed = MainScreenModel();
+  static final newsFeed = NewsFeedWidgetModel();
 
   void _onItemTapped(int index) {
     if (_selectedIndex == index) return;

@@ -3,7 +3,7 @@ import 'package:vk_example/Inherited/provider.dart';
 import 'package:vk_example/widgets/main_screen_vk/list_friend/list_friend_model.dart';
 import 'package:vk_example/widgets/theme/style.dart';
 
-class MyListFriendWidget extends StatelessWidget {
+class MyListFriendWidget extends StatefulWidget {
   const MyListFriendWidget({Key? key}) : super(key: key);
   static const List<Tab> myTabs = <Tab>[
     Tab(child: Text('Все друзья')),
@@ -15,9 +15,25 @@ class MyListFriendWidget extends StatelessWidget {
   ];
 
   @override
+  State<MyListFriendWidget> createState() => _MyListFriendWidgetState();
+}
+
+class _MyListFriendWidgetState extends State<MyListFriendWidget> {
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final error =
+        NotifierProvider.watch<MyListFriendModel>(context)?.errorTextListFriend;
+    if (error == true) {
+      Future.microtask(() => ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('error'))));
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: myTabs.length,
+      length: MyListFriendWidget.myTabs.length,
       child: Scaffold(
         body: NestedScrollView(
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
@@ -38,13 +54,13 @@ class MyListFriendWidget extends StatelessWidget {
                   unselectedLabelColor: Colors.grey,
                   indicatorColor: Colors.blue,
                   isScrollable: true,
-                  tabs: myTabs,
+                  tabs: MyListFriendWidget.myTabs,
                 ),
               ),
             ];
           },
           body: TabBarView(
-            children: bodyTabs,
+            children: MyListFriendWidget.bodyTabs,
           ),
         ),
       ),
@@ -68,17 +84,8 @@ class AllMyFriendsWidget extends StatelessWidget {
         onRefresh: () => model!.loadListFriend(),
         child: ListView.builder(
             padding: EdgeInsets.zero,
-            itemCount: model?.errorTextListFriend == false
-                ? model?.myFriendList?.response.count
-                : 1,
+            itemCount: model?.myFriendList?.response.count ?? 0,
             itemBuilder: (BuildContext context, int index) {
-              if (model?.errorTextListFriend == true) {
-                return const Text(
-                  'Ошибка соединения. Потяните вниз',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 15),
-                );
-              }
               return AllFriendInfoWidget(
                 index: index,
               );
@@ -104,18 +111,9 @@ class OnlineMyFriendsWidget extends StatelessWidget {
       child: RefreshIndicator(
         onRefresh: () => model!.loadListFriend(),
         child: ListView.builder(
-            itemCount: model?.errorTextListFriend == false
-                ? friendonlineList?.length
-                : 1,
+            itemCount: friendonlineList?.length ?? 0,
             padding: EdgeInsets.zero,
             itemBuilder: (BuildContext context, int index) {
-              if (model?.errorTextListFriend == true) {
-                return const Text(
-                  'Ошибка соединения. Потяните вниз',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 15),
-                );
-              }
               return FriendInfoOnlineWidget(
                 index: index,
               );

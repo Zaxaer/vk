@@ -2,8 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:vk_example/Inherited/provider.dart';
 import 'package:vk_example/widgets/main_screen_vk/profile/profile_model.dart';
 
-class ProfileScreenWidget extends StatelessWidget {
+class ProfileScreenWidget extends StatefulWidget {
   const ProfileScreenWidget({Key? key}) : super(key: key);
+
+  @override
+  State<ProfileScreenWidget> createState() => _ProfileScreenWidgetState();
+}
+
+class _ProfileScreenWidgetState extends State<ProfileScreenWidget> {
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final error =
+        NotifierProvider.watch<ProfileModel>(context)?.errorTextProfile;
+    if (error == true) {
+      Future.microtask(() => ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('error'))));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,18 +59,6 @@ class ProfileListInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = NotifierProvider.watch<ProfileModel>(context);
-    if (model!.errorTextProfile == true) {
-      return const SizedBox(
-        height: 1000,
-        width: double.infinity,
-        child: Text(
-          'Ошибка соединения. Потяните вниз',
-          textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 15),
-        ),
-      );
-    }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: const [

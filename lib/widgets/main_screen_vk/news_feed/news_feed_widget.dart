@@ -4,8 +4,24 @@ import 'package:vk_example/Inherited/provider.dart';
 import 'package:vk_example/widgets/auth_vk/exit_widget.dart';
 import 'package:vk_example/widgets/main_screen_vk/news_feed/news_feed_model.dart';
 
-class NewsFeedWidget extends StatelessWidget {
+class NewsFeedWidget extends StatefulWidget {
   const NewsFeedWidget({Key? key}) : super(key: key);
+
+  @override
+  State<NewsFeedWidget> createState() => _NewsFeedWidgetState();
+}
+
+class _NewsFeedWidgetState extends State<NewsFeedWidget> {
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final error =
+        NotifierProvider.watch<NewsFeedWidgetModel>(context)?.errorTextNews;
+    if (error == true) {
+      Future.microtask(() => ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('error'))));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,22 +51,15 @@ class LentaScrollViewWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = NotifierProvider.watch<MainScreenModel>(context);
+    final model = NotifierProvider.watch<NewsFeedWidgetModel>(context);
     final url = model?.newsFeed?.response.next_from ?? '';
     return RefreshIndicator(
       onRefresh: () => model!.refreshListFeed(),
       child: ListView.builder(
-        itemCount: model!.errorTextNews == false ? model.item.length : 1,
+        itemCount: model?.item.length ?? 0,
         padding: EdgeInsets.zero,
         itemBuilder: (BuildContext context, int index) {
-          model.showNextNewsFeed(index, url);
-          if (model.errorTextNews == true) {
-            return const Text(
-              'Ошибка соединения. Потяните вниз',
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 15),
-            );
-          }
+          model!.showNextNewsFeed(index, url);
           return NewsFeedPostWidget(
             index: index,
           );
@@ -70,7 +79,8 @@ class NewsFeedPostWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String photo = '';
-    final model = NotifierProvider.watch<MainScreenModel>(context)?.item[index];
+    final model =
+        NotifierProvider.watch<NewsFeedWidgetModel>(context)?.item[index];
     final image = model?.attachments
         ?.where((element) => element.type == 'photo')
         .toList();
@@ -145,7 +155,7 @@ class PostNameWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = NotifierProvider.watch<MainScreenModel>(context);
+    final model = NotifierProvider.watch<NewsFeedWidgetModel>(context);
     final postName = model?.item[index].source_id ?? 0;
     final dateFormat = (model?.item[index].date ?? 0) * 1000;
     final dateTime = DateTime.fromMillisecondsSinceEpoch(dateFormat);
