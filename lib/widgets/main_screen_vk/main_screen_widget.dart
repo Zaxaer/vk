@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:vk_example/Inherited/provider.dart';
-import 'package:vk_example/domain/api_client/api_client.dart';
 import 'package:vk_example/widgets/main_screen_vk/list_friend/list_friend_model.dart';
 import 'package:vk_example/widgets/main_screen_vk/list_friend/list_friends_widget.dart';
 import 'package:vk_example/widgets/main_screen_vk/news_feed/news_feed_model.dart';

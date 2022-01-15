@@ -153,11 +153,15 @@ class AllFriendInfoWidget extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 10),
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                TextFriendInfoWidget(text: '$_firstName, $_lastName'),
-                const SizedBox(height: 10),
-                StatusProfileWidget(index: index),
-              ])
+              Expanded(
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      TextFriendInfoWidget(text: '$_firstName $_lastName'),
+                      const SizedBox(height: 10),
+                      StatusProfileWidget(index: index),
+                    ]),
+              )
             ],
           ),
         ),
@@ -211,11 +215,15 @@ class FriendInfoOnlineWidget extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 10),
-            Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              TextFriendInfoWidget(text: '$_firstName, $_lastName'),
-              const SizedBox(height: 10),
-              StatusProfileOnlineWidget(index: index),
-            ])
+            Expanded(
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    TextFriendInfoWidget(text: '$_firstName $_lastName'),
+                    const SizedBox(height: 10),
+                    StatusProfileOnlineWidget(index: index),
+                  ]),
+            )
           ],
         ),
       ),
@@ -245,6 +253,9 @@ class TextFriendInfoWidget extends StatelessWidget {
     return Text(
       text,
       style: const TextStyle(fontSize: 25, fontWeight: FontWeight.w600),
+      overflow: TextOverflow.fade,
+      softWrap: false,
+      maxLines: 1,
     );
   }
 }
