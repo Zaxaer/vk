@@ -51,8 +51,8 @@ class PhotoAndNameWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final model = NotifierProvider.watch<ProfileFriendsModel>(context);
     final info = model?.friendInfo?.response.first;
-    final firstName = info?.first_name;
-    final lastName = info?.last_name;
+    final firstName = info?.facultyName;
+    final lastName = info?.lastName;
     final photo = info?.photo_100 ?? '';
     return Row(
       children: [

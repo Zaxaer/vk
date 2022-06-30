@@ -19,12 +19,12 @@ class Response {
   final List<Item> items;
   final List<Profile> profiles;
   final List<Group> groups;
-  final String next_from;
+  final String nextFrom;
   Response({
     required this.items,
     required this.profiles,
     required this.groups,
-    required this.next_from,
+    required this.nextFrom,
   });
   factory Response.fromJson(Map<String, dynamic> json) =>
       _$ResponseFromJson(json);
@@ -34,49 +34,49 @@ class Response {
 
 @JsonSerializable()
 class Item {
-  final int? source_id;
+  final int? sourceId;
   final int? date;
-  final bool? can_doubt_category;
-  final bool? can_set_category;
-  final int? topic_id;
-  final String? post_type;
+  final bool? canDoubtCategory;
+  final bool? canSetCategory;
+  final int? topicId;
+  final String? postType;
   final String? text;
-  final int? marked_as_ads;
+  final int? markedAsAds;
   final List<Attachment>? attachments;
-  final Post_source? post_source;
+  final PostSource? postSource;
   final Comments? comments;
   final Likes? likes;
   final Reposts? reposts;
   final Views? views;
-  final bool? is_favorite;
+  final bool? isFavorite;
   final Donut? donut;
-  final double? short_text_rate;
-  final int? post_id;
+  final double? shortTextRate;
+  final int? postId;
   final String? type;
-  final Push_subscription? push_subscription;
-  final String? track_code;
+  final PushSubscription? pushSubscription;
+  final String? trackCode;
   Item({
-    required this.source_id,
+    required this.sourceId,
     required this.date,
-    required this.can_doubt_category,
-    required this.can_set_category,
-    required this.topic_id,
-    required this.post_type,
+    required this.canDoubtCategory,
+    required this.canSetCategory,
+    required this.topicId,
+    required this.postType,
     required this.text,
-    required this.marked_as_ads,
+    required this.markedAsAds,
     required this.attachments,
-    required this.post_source,
+    required this.postSource,
     required this.comments,
     required this.likes,
     required this.reposts,
     required this.views,
-    required this.is_favorite,
+    required this.isFavorite,
     required this.donut,
-    required this.short_text_rate,
-    required this.post_id,
+    required this.shortTextRate,
+    required this.postId,
     required this.type,
-    required this.push_subscription,
-    required this.track_code,
+    required this.pushSubscription,
+    required this.trackCode,
   });
   factory Item.fromJson(Map<String, dynamic> json) => _$ItemFromJson(json);
 
@@ -109,12 +109,12 @@ class Attachment {
 class Note {
   final String? title;
   final String? text;
-  final String? view_url;
+  final String? viewUrl;
 
   Note({
     required this.title,
     required this.text,
-    required this.view_url,
+    required this.viewUrl,
   });
 
   factory Note.fromJson(Map<String, dynamic> json) => _$NoteFromJson(json);
@@ -160,12 +160,12 @@ class Audio {
 class Video {
   final String? title;
   final int? id;
-  final String? track_code;
+  final String? trackCode;
   final String? player;
 
   Video({
     required this.title,
-    required this.track_code,
+    required this.trackCode,
     required this.player,
     required this.id,
   });
@@ -177,27 +177,27 @@ class Video {
 
 @JsonSerializable()
 class Photo {
-  final int? album_id;
+  final int? albumId;
   final int? date;
   final int? id;
-  final int? owner_id;
-  final bool? has_tags;
-  final String? access_key;
-  final int? post_id;
+  final int? ownerId;
+  final bool? hasTags;
+  final String? accessKey;
+  final int? postId;
   final List<Size>? sizes;
   final String? text;
-  final int? user_id;
+  final int? userId;
   Photo({
-    required this.album_id,
+    required this.albumId,
     required this.date,
     required this.id,
-    required this.owner_id,
-    required this.has_tags,
-    required this.access_key,
-    required this.post_id,
+    required this.ownerId,
+    required this.hasTags,
+    required this.accessKey,
+    required this.postId,
     required this.sizes,
     required this.text,
-    required this.user_id,
+    required this.userId,
   });
   factory Photo.fromJson(Map<String, dynamic> json) => _$PhotoFromJson(json);
 
@@ -222,26 +222,26 @@ class Size {
 }
 
 @JsonSerializable()
-class Post_source {
+class PostSource {
   final String? type;
-  Post_source({
+  PostSource({
     required this.type,
   });
-  factory Post_source.fromJson(Map<String, dynamic> json) =>
-      _$Post_sourceFromJson(json);
+  factory PostSource.fromJson(Map<String, dynamic> json) =>
+      _$PostSourceFromJson(json);
 
-  Map<String, dynamic> toJson() => _$Post_sourceToJson(this);
+  Map<String, dynamic> toJson() => _$PostSourceToJson(this);
 }
 
 @JsonSerializable()
 class Comments {
   final int? count;
-  final int? can_post;
-  final bool? groups_can_post;
+  final int? canPost;
+  final bool? groupsCanPost;
   Comments({
     required this.count,
-    required this.can_post,
-    required this.groups_can_post,
+    required this.canPost,
+    required this.groupsCanPost,
   });
   factory Comments.fromJson(Map<String, dynamic> json) =>
       _$CommentsFromJson(json);
@@ -252,14 +252,14 @@ class Comments {
 @JsonSerializable()
 class Likes {
   final int? count;
-  final int? user_likes;
-  final int? can_like;
-  final int? can_publish;
+  final int? userLikes;
+  final int? canLike;
+  final int? canPublish;
   Likes({
     required this.count,
-    required this.user_likes,
-    required this.can_like,
-    required this.can_publish,
+    required this.userLikes,
+    required this.canLike,
+    required this.canPublish,
   });
   factory Likes.fromJson(Map<String, dynamic> json) => _$LikesFromJson(json);
 
@@ -269,10 +269,10 @@ class Likes {
 @JsonSerializable()
 class Reposts {
   final int? count;
-  final int? user_reposted;
+  final int? userReposted;
   Reposts({
     required this.count,
-    required this.user_reposted,
+    required this.userReposted,
   });
   factory Reposts.fromJson(Map<String, dynamic> json) =>
       _$RepostsFromJson(json);
@@ -293,9 +293,9 @@ class Views {
 
 @JsonSerializable()
 class Donut {
-  final bool? is_donut;
+  final bool? isDonut;
   Donut({
-    required this.is_donut,
+    required this.isDonut,
   });
   factory Donut.fromJson(Map<String, dynamic> json) => _$DonutFromJson(json);
 
@@ -303,44 +303,44 @@ class Donut {
 }
 
 @JsonSerializable()
-class Push_subscription {
-  final bool? is_subscribed;
-  Push_subscription({
-    required this.is_subscribed,
+class PushSubscription {
+  final bool? isSubscribed;
+  PushSubscription({
+    required this.isSubscribed,
   });
-  factory Push_subscription.fromJson(Map<String, dynamic> json) =>
-      _$Push_subscriptionFromJson(json);
+  factory PushSubscription.fromJson(Map<String, dynamic> json) =>
+      _$PushSubscriptionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$Push_subscriptionToJson(this);
+  Map<String, dynamic> toJson() => _$PushSubscriptionToJson(this);
 }
 
 @JsonSerializable()
 class Profile {
   final int? id;
-  final String? first_name;
-  final String? last_name;
-  final bool? is_closed;
-  final bool? can_access_closed;
-  final bool? is_service;
+  final String? firstName;
+  final String? lastName;
+  final bool? isClosed;
+  final bool? canAccessClosed;
+  final bool? isService;
   final int? sex;
-  final String? screen_name;
+  final String? screenName;
   final String? photo_50;
   final String? photo_100;
   final int? online;
-  final Online_info? online_info;
+  final OnlineInfo? onlineInfo;
   Profile({
     required this.id,
-    required this.first_name,
-    required this.last_name,
-    required this.is_closed,
-    required this.can_access_closed,
-    required this.is_service,
+    required this.firstName,
+    required this.lastName,
+    required this.isClosed,
+    required this.canAccessClosed,
+    required this.isService,
     required this.sex,
-    required this.screen_name,
+    required this.screenName,
     required this.photo_50,
     required this.photo_100,
     required this.online,
-    required this.online_info,
+    required this.onlineInfo,
   });
   factory Profile.fromJson(Map<String, dynamic> json) =>
       _$ProfileFromJson(json);
@@ -349,43 +349,43 @@ class Profile {
 }
 
 @JsonSerializable()
-class Online_info {
+class OnlineInfo {
   final bool? visible;
-  final bool? is_online;
-  final bool? is_mobile;
-  Online_info({
+  final bool? isOnline;
+  final bool? isMobile;
+  OnlineInfo({
     required this.visible,
-    required this.is_online,
-    required this.is_mobile,
+    required this.isOnline,
+    required this.isMobile,
   });
-  factory Online_info.fromJson(Map<String, dynamic> json) =>
-      _$Online_infoFromJson(json);
+  factory OnlineInfo.fromJson(Map<String, dynamic> json) =>
+      _$OnlineInfoFromJson(json);
 
-  Map<String, dynamic> toJson() => _$Online_infoToJson(this);
+  Map<String, dynamic> toJson() => _$OnlineInfoToJson(this);
 }
 
 @JsonSerializable()
 class Group {
   final int? id;
   final String? name;
-  final String? screen_name;
-  final int? is_closed;
+  final String? screenName;
+  final int? isClosed;
   final String? type;
-  final int? is_admin;
-  final int? is_member;
-  final int? is_advertiser;
+  final int? isAdmin;
+  final int? isMember;
+  final int? isAdvertiser;
   final String? photo_50;
   final String? photo_100;
   final String? photo_200;
   Group({
     required this.id,
     required this.name,
-    required this.screen_name,
-    required this.is_closed,
+    required this.screenName,
+    required this.isClosed,
     required this.type,
-    required this.is_admin,
-    required this.is_member,
-    required this.is_advertiser,
+    required this.isAdmin,
+    required this.isMember,
+    required this.isAdvertiser,
     required this.photo_50,
     required this.photo_100,
     required this.photo_200,

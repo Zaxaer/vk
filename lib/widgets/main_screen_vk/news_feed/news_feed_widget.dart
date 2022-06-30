@@ -52,7 +52,7 @@ class LentaScrollViewWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final model = NotifierProvider.watch<NewsFeedWidgetModel>(context);
-    final url = model?.newsFeed?.response.next_from ?? '';
+    final url = model?.newsFeed?.response.nextFrom ?? '';
     return RefreshIndicator(
       onRefresh: () => model!.refreshListFeed(),
       child: ListView.builder(
@@ -156,7 +156,7 @@ class PostNameWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final model = NotifierProvider.watch<NewsFeedWidgetModel>(context);
-    final postName = model?.item[index].source_id ?? 0;
+    final postName = model?.item[index].sourceId ?? 0;
     final dateFormat = (model?.item[index].date ?? 0) * 1000;
     final dateTime = DateTime.fromMillisecondsSinceEpoch(dateFormat);
     var date = DateFormat('dd/MM/yyyy, HH:mm').format(dateTime);
@@ -179,7 +179,7 @@ class PostNameWidget extends StatelessWidget {
           ),
           const SizedBox(width: 10),
           Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text('${post?.first.first_name}'),
+            Text('${post?.first.firstName}'),
             const SizedBox(height: 10),
           ])
         ],

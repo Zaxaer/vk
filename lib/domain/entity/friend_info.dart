@@ -15,11 +15,11 @@ class FriendInfo {
 
 @JsonSerializable()
 class Response {
-  final String first_name;
+  final String firstName;
   final int id;
-  final String last_name;
-  final bool can_access_closed;
-  final bool is_closed;
+  final String lastName;
+  final bool canAccessClosed;
+  final bool isClosed;
   final String? photo_100;
   final int? verified;
   final String? bdate;
@@ -31,18 +31,18 @@ class Response {
   final String? movies;
   final String? music;
   final int? university;
-  final String? university_name;
+  final String? universityName;
   final int? faculty;
-  final String? faculty_name;
+  final String? facultyName;
   final int? graduation;
   final int? online;
   final int? sex;
   Response(
-      {required this.first_name,
+      {required this.firstName,
       required this.id,
-      required this.last_name,
-      required this.can_access_closed,
-      required this.is_closed,
+      required this.lastName,
+      required this.canAccessClosed,
+      required this.isClosed,
       required this.photo_100,
       required this.verified,
       required this.bdate,
@@ -54,9 +54,9 @@ class Response {
       required this.movies,
       required this.music,
       required this.university,
-      required this.university_name,
+      required this.universityName,
       required this.faculty,
-      required this.faculty_name,
+      required this.facultyName,
       required this.graduation,
       required this.online,
       required this.sex});

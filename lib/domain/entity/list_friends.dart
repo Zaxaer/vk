@@ -29,27 +29,27 @@ class Response {
 
 @JsonSerializable()
 class Item {
-  final String? first_name;
+  final String? firstName;
   final int? id;
-  final String? last_name;
-  final bool? can_access_closed;
-  final bool? is_closed;
+  final String? lastName;
+  final bool? canAccessClosed;
+  final bool? isClosed;
   final String? domain;
   final City? city;
-  final bool? can_invite_to_chats;
-  final String? track_code;
+  final bool? canInviteToChats;
+  final String? trackCode;
   final String? photo_100;
   final int? online;
   Item({
-    required this.first_name,
+    required this.firstName,
     required this.id,
-    required this.last_name,
-    required this.can_access_closed,
-    required this.is_closed,
+    required this.lastName,
+    required this.canAccessClosed,
+    required this.isClosed,
     required this.domain,
     required this.city,
-    required this.can_invite_to_chats,
-    required this.track_code,
+    required this.canInviteToChats,
+    required this.trackCode,
     required this.online,
     required this.photo_100,
   });

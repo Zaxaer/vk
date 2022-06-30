@@ -64,10 +64,10 @@ class Size {
 
 @JsonSerializable()
 class Likes {
-  final int? user_likes;
+  final int? userLikes;
   final int? count;
   Likes({
-    required this.user_likes,
+    required this.userLikes,
     required this.count,
   });
   factory Likes.fromJson(Map<String, dynamic> json) => _$LikesFromJson(json);

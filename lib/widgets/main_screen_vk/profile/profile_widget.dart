@@ -25,8 +25,8 @@ class _ProfileScreenWidgetState extends State<ProfileScreenWidget> {
   Widget build(BuildContext context) {
     final model = NotifierProvider.watch<ProfileModel>(context);
     final info = model?.userInfo?.response.first;
-    final firstName = info?.first_name ?? '';
-    final lastName = info?.last_name ?? '';
+    final firstName = info?.facultyName ?? '';
+    final lastName = info?.lastName ?? '';
     return Scaffold(
       appBar: AppBar(
         actionsIconTheme: const IconThemeData(color: Colors.blue),
@@ -89,8 +89,8 @@ class PhotoAndName extends StatelessWidget {
   Widget build(BuildContext context) {
     final model = NotifierProvider.watch<ProfileModel>(context);
     final info = model?.userInfo?.response.first;
-    final firstName = info?.first_name ?? '';
-    final lastName = info?.last_name ?? '';
+    final firstName = info?.facultyName ?? '';
+    final lastName = info?.lastName ?? '';
     final photo = info?.photo_100;
     return Row(
       children: [

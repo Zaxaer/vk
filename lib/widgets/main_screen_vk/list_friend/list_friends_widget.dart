@@ -134,8 +134,8 @@ class AllFriendInfoWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final model = NotifierProvider.watch<MyListFriendModel>(context);
     final _photo = model?.myFriendList?.response.items[index].photo_100 ?? '';
-    final _firstName = model?.myFriendList?.response.items[index].first_name;
-    final _lastName = model?.myFriendList?.response.items[index].last_name;
+    final _firstName = model?.myFriendList?.response.items[index].firstName;
+    final _lastName = model?.myFriendList?.response.items[index].lastName;
     final userId = model?.myFriendList?.response.items[index].id ?? 87473106;
     return Stack(
       children: [
@@ -197,8 +197,8 @@ class FriendInfoOnlineWidget extends StatelessWidget {
         .where((element) => element.online == 1)
         .toList();
     final _photo = friendonlineList![index].photo_100 ?? '';
-    final _firstName = friendonlineList[index].first_name;
-    final _lastName = friendonlineList[index].last_name;
+    final _firstName = friendonlineList[index].firstName;
+    final _lastName = friendonlineList[index].lastName;
     final userId = friendonlineList[index].id ?? 87473106;
     return Stack(children: [
       Card(

@@ -68,12 +68,12 @@ Map<String, dynamic> _$SizeToJson(Size instance) => <String, dynamic>{
 
 Likes _$LikesFromJson(Map<String, dynamic> json) {
   return Likes(
-    user_likes: json['user_likes'] as int?,
+    userLikes: json['userLikes'] as int?,
     count: json['count'] as int?,
   );
 }
 
 Map<String, dynamic> _$LikesToJson(Likes instance) => <String, dynamic>{
-      'user_likes': instance.user_likes,
+      'userLikes': instance.userLikes,
       'count': instance.count,
     };
