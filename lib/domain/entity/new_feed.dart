@@ -19,6 +19,7 @@ class Response {
   final List<Item> items;
   final List<Profile> profiles;
   final List<Group> groups;
+  @JsonKey(name: "next_from")
   final String nextFrom;
   Response({
     required this.items,
@@ -34,25 +35,36 @@ class Response {
 
 @JsonSerializable()
 class Item {
+  @JsonKey(name: "source_id")
   final int? sourceId;
   final int? date;
+  @JsonKey(name: "can_doubt_category")
   final bool? canDoubtCategory;
+  @JsonKey(name: "can_set_category")
   final bool? canSetCategory;
+  @JsonKey(name: "topic_id")
   final int? topicId;
+  @JsonKey(name: "post_type")
   final String? postType;
   final String? text;
+  @JsonKey(name: "marked_as_ads")
   final int? markedAsAds;
   final List<Attachment>? attachments;
+  @JsonKey(name: "post_source")
   final PostSource? postSource;
   final Comments? comments;
   final Likes? likes;
   final Reposts? reposts;
   final Views? views;
+  @JsonKey(name: "is_favorite")
   final bool? isFavorite;
   final Donut? donut;
+  @JsonKey(name: "short_text_rate")
   final double? shortTextRate;
+  @JsonKey(name: "post_id")
   final int? postId;
   final String? type;
+  @JsonKey(name: "push_subscription")
   final PushSubscription? pushSubscription;
   final String? trackCode;
   Item({
@@ -109,6 +121,7 @@ class Attachment {
 class Note {
   final String? title;
   final String? text;
+  @JsonKey(name: "view_url")
   final String? viewUrl;
 
   Note({
@@ -160,6 +173,7 @@ class Audio {
 class Video {
   final String? title;
   final int? id;
+  @JsonKey(name: "track_code")
   final String? trackCode;
   final String? player;
 
@@ -177,15 +191,21 @@ class Video {
 
 @JsonSerializable()
 class Photo {
+  @JsonKey(name: "album_id")
   final int? albumId;
   final int? date;
   final int? id;
+  @JsonKey(name: "owner_id")
   final int? ownerId;
+  @JsonKey(name: "has_tags")
   final bool? hasTags;
+  @JsonKey(name: "access_key")
   final String? accessKey;
+  @JsonKey(name: "post_id")
   final int? postId;
   final List<Size>? sizes;
   final String? text;
+  @JsonKey(name: "user_id")
   final int? userId;
   Photo({
     required this.albumId,
@@ -236,7 +256,9 @@ class PostSource {
 @JsonSerializable()
 class Comments {
   final int? count;
+  @JsonKey(name: "can_post")
   final int? canPost;
+  @JsonKey(name: "groups_can_post")
   final bool? groupsCanPost;
   Comments({
     required this.count,
@@ -252,8 +274,11 @@ class Comments {
 @JsonSerializable()
 class Likes {
   final int? count;
+  @JsonKey(name: "user_likes")
   final int? userLikes;
+  @JsonKey(name: "can_like")
   final int? canLike;
+  @JsonKey(name: "can_publish")
   final int? canPublish;
   Likes({
     required this.count,
@@ -269,6 +294,7 @@ class Likes {
 @JsonSerializable()
 class Reposts {
   final int? count;
+  @JsonKey(name: "user_reposted")
   final int? userReposted;
   Reposts({
     required this.count,
@@ -293,6 +319,7 @@ class Views {
 
 @JsonSerializable()
 class Donut {
+  @JsonKey(name: "is_donut")
   final bool? isDonut;
   Donut({
     required this.isDonut,
@@ -304,6 +331,7 @@ class Donut {
 
 @JsonSerializable()
 class PushSubscription {
+  @JsonKey(name: "is_subscribed")
   final bool? isSubscribed;
   PushSubscription({
     required this.isSubscribed,
@@ -317,16 +345,23 @@ class PushSubscription {
 @JsonSerializable()
 class Profile {
   final int? id;
+  @JsonKey(name: "first_name")
   final String? firstName;
+  @JsonKey(name: "last_name")
   final String? lastName;
+  @JsonKey(name: "is_closed")
   final bool? isClosed;
+  @JsonKey(name: "can_access_closed")
   final bool? canAccessClosed;
+  @JsonKey(name: "is_service")
   final bool? isService;
   final int? sex;
+  @JsonKey(name: "screen_name")
   final String? screenName;
   final String? photo_50;
   final String? photo_100;
   final int? online;
+  @JsonKey(name: "online_info")
   final OnlineInfo? onlineInfo;
   Profile({
     required this.id,
@@ -351,7 +386,9 @@ class Profile {
 @JsonSerializable()
 class OnlineInfo {
   final bool? visible;
+  @JsonKey(name: "is_online")
   final bool? isOnline;
+  @JsonKey(name: "is_mobile")
   final bool? isMobile;
   OnlineInfo({
     required this.visible,
@@ -368,11 +405,16 @@ class OnlineInfo {
 class Group {
   final int? id;
   final String? name;
+  @JsonKey(name: "screen_name")
   final String? screenName;
+  @JsonKey(name: "is_closed")
   final int? isClosed;
   final String? type;
+  @JsonKey(name: "is_admin")
   final int? isAdmin;
+  @JsonKey(name: "is_member")
   final int? isMember;
+  @JsonKey(name: "is_advertiser")
   final int? isAdvertiser;
   final String? photo_50;
   final String? photo_100;

@@ -1,11 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:vk_example/Inherited/provider.dart';
-import 'package:vk_example/widgets/main_screen_vk/list_friend/list_friend_model.dart';
-import 'package:vk_example/widgets/main_screen_vk/list_friend/list_friends_widget.dart';
-import 'package:vk_example/widgets/main_screen_vk/news_feed/news_feed_model.dart';
-import 'package:vk_example/widgets/main_screen_vk/news_feed/news_feed_widget.dart';
-import 'package:vk_example/widgets/main_screen_vk/profile/profile_widget.dart';
-import 'package:vk_example/widgets/main_screen_vk/profile/profile_model.dart';
+import 'package:vk_example/domain/factory/screen_factory.dart';
 
 class MainScreenWidget extends StatefulWidget {
   const MainScreenWidget({
@@ -17,9 +11,7 @@ class MainScreenWidget extends StatefulWidget {
 
 class _MainScreenWidgetState extends State<MainScreenWidget> {
   int _selectedIndex = 0;
-  static final infoLoad = ProfileModel();
-  static final listFriends = MyListFriendModel();
-  static final newsFeed = NewsFeedWidgetModel();
+  static final _screenFactory = ScreenFactory();
 
   void _onItemTapped(int index) {
     if (_selectedIndex == index) return;
@@ -28,27 +20,10 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
     });
   }
 
-  @override
-  void initState() {
-    super.initState();
-    infoLoad.loadInfo();
-    listFriends.loadListFriend();
-    newsFeed.loadNewsFeed('');
-  }
-
   final List<Widget> _widgetBody = <Widget>[
-    NotifierProvider(
-      child: const NewsFeedWidget(),
-      model: newsFeed,
-    ),
-    NotifierProvider(
-      child: const MyListFriendWidget(),
-      model: listFriends,
-    ),
-    NotifierProvider(
-      child: const ProfileScreenWidget(),
-      model: infoLoad,
-    ),
+    _screenFactory.makeNewsFeed(),
+    _screenFactory.makeMyListFriend(),
+    _screenFactory.makeProfile(),
   ];
 
   @override

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:vk_example/Inherited/provider.dart';
+import 'package:provider/provider.dart';
 import 'package:vk_example/widgets/main_screen_vk/friend_info/friend_info_model.dart';
 
 class ProfileFriendsWidget extends StatelessWidget {
@@ -7,13 +7,13 @@ class ProfileFriendsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = NotifierProvider.watch<ProfileFriendsModel>(context);
+    final model = context.watch<ProfileFriendsViewModel>();
     return Scaffold(
       appBar: AppBar(
         foregroundColor: Colors.blue,
       ),
       body: RefreshIndicator(
-        onRefresh: () => model!.loadInfo(context),
+        onRefresh: () => model.loadInfo(),
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
@@ -49,8 +49,8 @@ class PhotoAndNameWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = NotifierProvider.watch<ProfileFriendsModel>(context);
-    final info = model?.friendInfo?.response.first;
+    final model = context.watch<ProfileFriendsViewModel>();
+    final info = model.friendInfo?.response.first;
     final firstName = info?.facultyName;
     final lastName = info?.lastName;
     final photo = info?.photo_100 ?? '';
@@ -88,10 +88,8 @@ class StatusProfileWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = NotifierProvider.watch<ProfileFriendsModel>(context)
-        ?.friendInfo
-        ?.response
-        .first;
+    final model =
+        context.watch<ProfileFriendsViewModel>().friendInfo?.response.first;
     if (model?.online == 0) {
       return const Text(
         'Offline',
@@ -115,10 +113,8 @@ class ProfileInfoWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String? sex = '';
-    final model = NotifierProvider.watch<ProfileFriendsModel>(context)
-        ?.friendInfo
-        ?.response
-        .first;
+    final model =
+        context.watch<ProfileFriendsViewModel>().friendInfo?.response.first;
     switch (model?.sex) {
       case (1):
         sex = 'Жениский';
@@ -176,8 +172,9 @@ class PhotoViewWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final count = NotifierProvider.watch<ProfileFriendsModel>(context)
-        ?.friendPhoto
+    final count = context
+        .watch<ProfileFriendsViewModel>()
+        .friendPhoto
         ?.response
         .items
         ?.length;
@@ -211,15 +208,17 @@ class PhotoWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = NotifierProvider.watch<ProfileFriendsModel>(context)
-            ?.friendPhoto
+    final model = context
+            .watch<ProfileFriendsViewModel>()
+            .friendPhoto
             ?.response
             .items?[index]
             .sizes?[2]
             .url ??
         '';
-    final modelFoto = NotifierProvider.watch<ProfileFriendsModel>(context)
-            ?.friendPhoto
+    final modelFoto = context
+            .watch<ProfileFriendsViewModel>()
+            .friendPhoto
             ?.response
             .items?[index]
             .sizes

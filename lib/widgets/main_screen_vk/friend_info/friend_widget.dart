@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:vk_example/Inherited/provider.dart';
+import 'package:provider/provider.dart';
 import 'package:vk_example/widgets/main_screen_vk/friend_info/friend_info.dart';
 import 'package:vk_example/widgets/main_screen_vk/friend_info/friend_info_model.dart';
 
@@ -14,7 +14,7 @@ class _FriendInfoWidgetState extends State<FriendInfoWidget> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    NotifierProvider.read<ProfileFriendsModel>(context)?.loadInfo(context);
+    context.read<ProfileFriendsViewModel>().loadInfo();
   }
 
   @override
@@ -31,8 +31,8 @@ class _BodyWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = NotifierProvider.watch<ProfileFriendsModel>(context);
-    final movieDetails = model?.friendInfo;
+    final model = context.watch<ProfileFriendsViewModel>();
+    final movieDetails = model.friendInfo;
     if (movieDetails == null) {
       return Scaffold(
         appBar: AppBar(

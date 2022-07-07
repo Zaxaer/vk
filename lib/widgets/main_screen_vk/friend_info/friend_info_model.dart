@@ -3,19 +3,21 @@ import 'package:vk_example/domain/api_client/api_client.dart';
 import 'package:vk_example/domain/entity/friend_info.dart';
 import 'package:vk_example/domain/entity/profile_photo.dart';
 
-class ProfileFriendsModel extends ChangeNotifier {
+class ProfileFriendsViewModel extends ChangeNotifier {
   final _apiClient = ApiClient();
   int userId;
   FriendInfo? _userInfo;
   MyPhoto? _userPhoto;
   var errorTextFriendInfo = false;
 
-  ProfileFriendsModel({required this.userId});
+  ProfileFriendsViewModel({required this.userId}) {
+    loadInfo();
+  }
 
   FriendInfo? get friendInfo => _userInfo;
   MyPhoto? get friendPhoto => _userPhoto;
 
-  Future<void> loadInfo(BuildContext context) async {
+  Future<void> loadInfo() async {
     try {
       _userInfo = await _apiClient.friendInfo(userId);
       await loadPhoto();

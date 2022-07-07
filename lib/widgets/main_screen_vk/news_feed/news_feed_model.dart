@@ -2,14 +2,21 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:vk_example/domain/api_client/api_client.dart';
 import 'package:vk_example/domain/entity/new_feed.dart';
+import 'package:vk_example/domain/services/auth_services.dart';
+import 'package:vk_example/navigation/main_navigation.dart';
 
-class NewsFeedWidgetModel extends ChangeNotifier {
+class NewsFeedWidgetViewModel extends ChangeNotifier {
+  final _authServices = AuthServices();
   final _apiClient = ApiClient();
   NewsFeed? _newsFeed;
   final _item = <Item>[];
   final _profile = <Profile>[];
   final _groups = <Group>[];
   var errorTextNews = false;
+
+  NewsFeedWidgetViewModel() {
+    loadNewsFeed('');
+  }
 
   List<Item> get item => List.unmodifiable(_item);
   List<Profile> get profile => List.unmodifiable(_profile);
@@ -44,5 +51,11 @@ class NewsFeedWidgetModel extends ChangeNotifier {
   void showNextNewsFeed(int index, String url) async {
     if (index < _item.length - 1) return;
     loadNewsFeed(url);
+  }
+
+  void exitAuthScreen(BuildContext context) {
+    _authServices.exitAccount();
+    Navigator.pushNamedAndRemoveUntil(
+        context, MainNavigationRouteNames.loaderWidget, (route) => false);
   }
 }

@@ -3,7 +3,7 @@ import 'package:vk_example/domain/api_client/api_client.dart';
 import 'package:vk_example/domain/entity/profile_info.dart';
 import 'package:vk_example/domain/entity/profile_photo.dart';
 
-class ProfileModel extends ChangeNotifier {
+class ProfileViewModel extends ChangeNotifier {
   final _apiClient = ApiClient();
   var errorTextProfile = false;
   MyProfile? _userInfo;
@@ -11,6 +11,10 @@ class ProfileModel extends ChangeNotifier {
 
   MyProfile? get userInfo => _userInfo;
   MyPhoto? get userPhoto => _userPhoto;
+
+  ProfileViewModel() {
+    loadInfo();
+  }
 
   Future<void> loadInfo() async {
     try {

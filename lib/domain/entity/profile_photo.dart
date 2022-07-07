@@ -64,6 +64,7 @@ class Size {
 
 @JsonSerializable()
 class Likes {
+  @JsonKey(name: "user_likes")
   final int? userLikes;
   final int? count;
   Likes({

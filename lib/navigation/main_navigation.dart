@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:vk_example/Inherited/provider.dart';
-import 'package:vk_example/widgets/auth_vk/auth_appbar_vk.dart';
-import 'package:vk_example/widgets/main_screen_vk/friend_info/friend_info_model.dart';
-import 'package:vk_example/widgets/main_screen_vk/friend_info/friend_widget.dart';
-import 'package:vk_example/widgets/main_screen_vk/main_screen_widget.dart';
+import 'package:vk_example/domain/factory/screen_factory.dart';
 
 abstract class MainNavigationRouteNames {
-  static const authVK = '/authVk';
+  static const loaderWidget = '/';
+  static const authVK = '/auth_vk';
+  static const webView = '/web_view';
   static const mainScreenVK = '/main_screen';
   static const friendInfo = '/main_screen/friend';
 }
 
 class MainNavigation {
-  String? initialRoute = MainNavigationRouteNames.authVK;
+  static final _screenFactory = ScreenFactory();
   final route = <String, Widget Function(BuildContext)>{
-    MainNavigationRouteNames.authVK: (context) =>
-        const AuthWidgetVkStateWidget(),
+    MainNavigationRouteNames.loaderWidget: (context) =>
+        _screenFactory.makeLoader(),
     MainNavigationRouteNames.mainScreenVK: (context) =>
-        const MainScreenWidget(),
+        _screenFactory.makeMainScreen(),
+    MainNavigationRouteNames.webView: (context) => _screenFactory.makeWebView(),
+    MainNavigationRouteNames.authVK: (context) => _screenFactory.makeAuth(),
   };
   Route<Object> onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -25,11 +25,7 @@ class MainNavigation {
         final arguments = settings.arguments;
         final userId = arguments is int ? arguments : 87473106;
         return MaterialPageRoute(
-          builder: (context) => NotifierProvider(
-            model: ProfileFriendsModel(userId: userId),
-            child: const FriendInfoWidget(),
-          ),
-        );
+            builder: (context) => _screenFactory.makeProfileFriends(userId));
       default:
         const widget = Text('Navigation error!!!');
         return MaterialPageRoute(builder: (context) => widget);

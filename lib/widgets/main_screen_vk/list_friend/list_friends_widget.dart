@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:vk_example/Inherited/provider.dart';
+import 'package:provider/provider.dart';
 import 'package:vk_example/widgets/main_screen_vk/list_friend/list_friend_model.dart';
 import 'package:vk_example/widgets/theme/style.dart';
 
@@ -22,8 +22,7 @@ class _MyListFriendWidgetState extends State<MyListFriendWidget> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    final error =
-        NotifierProvider.watch<MyListFriendModel>(context)?.errorTextListFriend;
+    final error = context.watch<MyListFriendViewModel>().errorTextListFriend;
     if (error == true) {
       Future.microtask(() => ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text('error'))));
@@ -77,14 +76,14 @@ class AllMyFriendsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = NotifierProvider.watch<MyListFriendModel>(context);
+    final model = context.watch<MyListFriendViewModel>();
     return Container(
       color: _style.greyBackGroundWidgetColor,
       child: RefreshIndicator(
-        onRefresh: () => model!.loadListFriend(),
+        onRefresh: () => model.loadListFriend(),
         child: ListView.builder(
             padding: EdgeInsets.zero,
-            itemCount: model?.myFriendList?.response.count ?? 0,
+            itemCount: model.myFriendList?.response.count ?? 0,
             itemBuilder: (BuildContext context, int index) {
               return AllFriendInfoWidget(
                 index: index,
@@ -102,14 +101,14 @@ class OnlineMyFriendsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = NotifierProvider.watch<MyListFriendModel>(context);
-    final friendonlineList = model?.myFriendList?.response.items
+    final model = context.watch<MyListFriendViewModel>();
+    final friendonlineList = model.myFriendList?.response.items
         .where((element) => element.online == 1)
         .toList();
     return Container(
       color: _style.greyBackGroundWidgetColor,
       child: RefreshIndicator(
-        onRefresh: () => model!.loadListFriend(),
+        onRefresh: () => model.loadListFriend(),
         child: ListView.builder(
             itemCount: friendonlineList?.length ?? 0,
             padding: EdgeInsets.zero,
@@ -132,11 +131,11 @@ class AllFriendInfoWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = NotifierProvider.watch<MyListFriendModel>(context);
-    final _photo = model?.myFriendList?.response.items[index].photo_100 ?? '';
-    final _firstName = model?.myFriendList?.response.items[index].firstName;
-    final _lastName = model?.myFriendList?.response.items[index].lastName;
-    final userId = model?.myFriendList?.response.items[index].id ?? 87473106;
+    final model = context.watch<MyListFriendViewModel>();
+    final _photo = model.myFriendList?.response.items[index].photo_100 ?? '';
+    final _firstName = model.myFriendList?.response.items[index].firstName;
+    final _lastName = model.myFriendList?.response.items[index].lastName;
+    final userId = model.myFriendList?.response.items[index].id ?? 87473106;
     return Stack(
       children: [
         Card(
@@ -174,7 +173,7 @@ class AllFriendInfoWidget extends StatelessWidget {
             color: Colors.transparent,
             child: InkWell(
               borderRadius: BorderRadius.circular(10),
-              onTap: () => model?.onFriendInfo(context, userId),
+              onTap: () => model.onFriendInfo(context, userId),
             ),
           ),
         )
@@ -192,8 +191,8 @@ class FriendInfoOnlineWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = NotifierProvider.watch<MyListFriendModel>(context);
-    final friendonlineList = model?.myFriendList?.response.items
+    final model = context.watch<MyListFriendViewModel>();
+    final friendonlineList = model.myFriendList?.response.items
         .where((element) => element.online == 1)
         .toList();
     final _photo = friendonlineList![index].photo_100 ?? '';
@@ -236,7 +235,7 @@ class FriendInfoOnlineWidget extends StatelessWidget {
           color: Colors.transparent,
           child: InkWell(
             borderRadius: BorderRadius.circular(10),
-            onTap: () => model?.onFriendInfo(context, userId),
+            onTap: () => model.onFriendInfo(context, userId),
           ),
         ),
       )
@@ -269,8 +268,8 @@ class StatusProfileWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = NotifierProvider.watch<MyListFriendModel>(context);
-    if (model?.myFriendList?.response.items[index].online == 0) {
+    final model = context.watch<MyListFriendViewModel>();
+    if (model.myFriendList?.response.items[index].online == 0) {
       return const Text(
         'Offline',
         style: TextStyle(

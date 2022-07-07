@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:vk_example/Inherited/provider.dart';
+import 'package:provider/provider.dart';
 import 'package:vk_example/widgets/main_screen_vk/profile/profile_model.dart';
 
 class ProfileScreenWidget extends StatefulWidget {
@@ -13,8 +13,7 @@ class _ProfileScreenWidgetState extends State<ProfileScreenWidget> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    final error =
-        NotifierProvider.watch<ProfileModel>(context)?.errorTextProfile;
+    final error = context.watch<ProfileViewModel>().errorTextProfile;
     if (error == true) {
       Future.microtask(() => ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text('error'))));
@@ -23,8 +22,8 @@ class _ProfileScreenWidgetState extends State<ProfileScreenWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final model = NotifierProvider.watch<ProfileModel>(context);
-    final info = model?.userInfo?.response.first;
+    final model = context.watch<ProfileViewModel>();
+    final info = model.userInfo?.response.first;
     final firstName = info?.facultyName ?? '';
     final lastName = info?.lastName ?? '';
     return Scaffold(
@@ -39,7 +38,7 @@ class _ProfileScreenWidgetState extends State<ProfileScreenWidget> {
         ),
       ),
       body: RefreshIndicator(
-        onRefresh: () => model!.loadInfo(),
+        onRefresh: () => model.loadInfo(),
         child: const SingleChildScrollView(
           physics: AlwaysScrollableScrollPhysics(),
           child: Padding(
@@ -87,8 +86,8 @@ class PhotoAndName extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = NotifierProvider.watch<ProfileModel>(context);
-    final info = model?.userInfo?.response.first;
+    final model = context.watch<ProfileViewModel>();
+    final info = model.userInfo?.response.first;
     final firstName = info?.facultyName ?? '';
     final lastName = info?.lastName ?? '';
     final photo = info?.photo_100;
@@ -127,8 +126,7 @@ class StatusProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model =
-        NotifierProvider.watch<ProfileModel>(context)?.userInfo?.response.first;
+    final model = context.watch<ProfileViewModel>().userInfo?.response.first;
     if (model?.online == 0) {
       return const Text(
         'Offline',
@@ -152,8 +150,7 @@ class ProfileInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String? sex = '';
-    final model =
-        NotifierProvider.watch<ProfileModel>(context)?.userInfo?.response.first;
+    final model = context.watch<ProfileViewModel>().userInfo?.response.first;
     switch (model?.sex) {
       case (1):
         sex = 'Жениский';
@@ -210,7 +207,7 @@ class PhotoView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = NotifierProvider.watch<ProfileModel>(context);
+    final model = context.watch<ProfileViewModel>();
     return Container(
       decoration: const BoxDecoration(
         border: Border(
@@ -224,7 +221,7 @@ class PhotoView extends StatelessWidget {
             crossAxisCount: 2,
           ),
           scrollDirection: Axis.horizontal,
-          itemCount: model?.userPhoto?.response.count ?? 0,
+          itemCount: model.userPhoto?.response.count ?? 0,
           itemBuilder: (BuildContext context, int index) {
             return Padding(
               padding: const EdgeInsets.all(2.0),
@@ -241,15 +238,17 @@ class Photo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = NotifierProvider.watch<ProfileModel>(context)
-            ?.userPhoto
+    final model = context
+            .watch<ProfileViewModel>()
+            .userPhoto
             ?.response
             .items?[index]
             .sizes?[2]
             .url ??
         '';
-    final modelMax = NotifierProvider.watch<ProfileModel>(context)
-            ?.userPhoto
+    final modelMax = context
+            .watch<ProfileViewModel>()
+            .userPhoto
             ?.response
             .items?[index]
             .sizes?[6]

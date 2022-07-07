@@ -29,13 +29,18 @@ class Response {
 
 @JsonSerializable()
 class Item {
+  @JsonKey(name: "first_name")
   final String? firstName;
   final int? id;
+  @JsonKey(name: "last_name")
   final String? lastName;
+  @JsonKey(name: "can_access_closed")
   final bool? canAccessClosed;
+  @JsonKey(name: "is_closed")
   final bool? isClosed;
   final String? domain;
   final City? city;
+  @JsonKey(name: "can_invite_to_chats")
   final bool? canInviteToChats;
   final String? trackCode;
   final String? photo_100;

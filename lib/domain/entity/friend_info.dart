@@ -15,10 +15,14 @@ class FriendInfo {
 
 @JsonSerializable()
 class Response {
+  @JsonKey(name: "first_name")
   final String firstName;
   final int id;
+  @JsonKey(name: "last_name")
   final String lastName;
+  @JsonKey(name: "can_access_closed")
   final bool canAccessClosed;
+  @JsonKey(name: "is_closed")
   final bool isClosed;
   final String? photo_100;
   final int? verified;
@@ -31,8 +35,10 @@ class Response {
   final String? movies;
   final String? music;
   final int? university;
+  @JsonKey(name: "university_name")
   final String? universityName;
   final int? faculty;
+  @JsonKey(name: "faculty_name")
   final String? facultyName;
   final int? graduation;
   final int? online;

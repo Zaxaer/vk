@@ -50,12 +50,12 @@ class ApiClient {
   }
 
   Future<MyProfile> myProfile() async {
-    // ignore: prefer_function_declarations_over_variables
-    final parser = (dynamic json) {
+    parser(dynamic json) {
       final jsonMap = json as Map<String, dynamic>;
       final response = MyProfile.fromJson(jsonMap);
       return response;
-    };
+    }
+
     final accesToken = await _sessionDataProvider.getToken();
     final userId = await _sessionDataProvider.getUserId();
     final result = _get(
@@ -67,12 +67,12 @@ class ApiClient {
   }
 
   Future<MyPhoto> myPhotoProfile() async {
-    // ignore: prefer_function_declarations_over_variables
-    final parser = (dynamic json) {
+    parser(dynamic json) {
       final jsonMap = json as Map<String, dynamic>;
       final response = MyPhoto.fromJson(jsonMap);
       return response;
-    };
+    }
+
     final accesToken = await _sessionDataProvider.getToken();
     final userId = await _sessionDataProvider.getUserId();
     final result = _get(
@@ -85,12 +85,12 @@ class ApiClient {
   }
 
   Future<ListFriend> myListFriends() async {
-    // ignore: prefer_function_declarations_over_variables
-    final parser = (dynamic json) {
+    parser(dynamic json) {
       final jsonMap = json as Map<String, dynamic>;
       final response = ListFriend.fromJson(jsonMap);
       return response;
-    };
+    }
+
     final accesToken = await _sessionDataProvider.getToken();
     final userId = await _sessionDataProvider.getUserId();
     final result = _get(
@@ -103,12 +103,12 @@ class ApiClient {
   }
 
   Future<FriendInfo> friendInfo(int userId) async {
-    // ignore: prefer_function_declarations_over_variables
-    final parser = (dynamic json) {
+    parser(dynamic json) {
       final jsonMap = json as Map<String, dynamic>;
       final response = FriendInfo.fromJson(jsonMap);
       return response;
-    };
+    }
+
     final accesToken = await _sessionDataProvider.getToken();
     final result = _get(
       'users.get?',
@@ -120,12 +120,12 @@ class ApiClient {
   }
 
   Future<MyPhoto> myPhotoFriend(int userId) async {
-    // ignore: prefer_function_declarations_over_variables
-    final parser = (dynamic json) {
+    parser(dynamic json) {
       final jsonMap = json as Map<String, dynamic>;
       final response = MyPhoto.fromJson(jsonMap);
       return response;
-    };
+    }
+
     final accesToken = await _sessionDataProvider.getToken();
     final result = _get(
       'photos.getAll?',
@@ -137,12 +137,12 @@ class ApiClient {
   }
 
   Future<NewsFeed> myNewsFeed(String path) async {
-    // ignore: prefer_function_declarations_over_variables
-    final parser = (dynamic json) {
+    parser(dynamic json) {
       final jsonMap = json as Map<String, dynamic>;
       final response = NewsFeed.fromJson(jsonMap);
       return response;
-    };
+    }
+
     final accesToken = await _sessionDataProvider.getToken();
     final result = _get(
       'newsfeed.get?',
