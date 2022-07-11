@@ -88,11 +88,13 @@ class ProfileFriendsViewModel extends ChangeNotifier {
   }
 
   String minPhotoUrl(int index) {
-    return _userPhoto?.response.items?[index].sizes?[2].url ?? '';
+    final url = _userPhoto?.response.items?[index].sizes?[2].url;
+    return url ?? '';
   }
 
   String maxPhotoUrl(int index) {
-    return _userPhoto?.response.items?[index].sizes?.last.url ?? '';
+    final url = _userPhoto?.response.items?[index].sizes?.last.url;
+    return url ?? '';
   }
 
   Future<void> loadFriendPhoto() async {

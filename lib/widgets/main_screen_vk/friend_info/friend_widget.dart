@@ -83,7 +83,7 @@ class PhotoAndNameWidget extends StatelessWidget {
           height: 100,
           width: 100,
           child: ClipRRect(
-            child: profileFriendsData.photo != ''
+            child: profileFriendsData.photo.isNotEmpty
                 ? Image.network(profileFriendsData.photo)
                 : const SizedBox.shrink(),
             borderRadius: BorderRadius.circular(50),
@@ -202,7 +202,9 @@ class PhotoWidget extends StatelessWidget {
     return GestureDetector(
       child: Hero(
         tag: 'tag$index',
-        child: Image.network(minPhotoUrl),
+        child: minPhotoUrl != ''
+            ? Image.network(minPhotoUrl)
+            : const SizedBox.shrink(),
       ),
       onTap: () {
         Navigator.push<DetailScreenWidget>(context,
@@ -229,7 +231,7 @@ class DetailScreenWidget extends StatelessWidget {
         child: Center(
           child: Hero(
             tag: 'tag',
-            child: Image.network(url),
+            child: url != '' ? Image.network(url) : const SizedBox.shrink(),
           ),
         ),
       ),

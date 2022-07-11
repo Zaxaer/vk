@@ -47,7 +47,7 @@ class AllFriendInfoWidget extends StatelessWidget {
                 height: 100,
                 width: 100,
                 child: ClipRRect(
-                  child: listFriend.photo.isNotEmpty
+                  child: listFriend.photo != ''
                       ? Image.network(listFriend.photo)
                       : const SizedBox.shrink(),
                   borderRadius: BorderRadius.circular(50),

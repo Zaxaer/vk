@@ -100,7 +100,7 @@ class _PhotoAndNameWidget extends StatelessWidget {
           height: 100,
           width: 100,
           child: ClipRRect(
-            child: profileData.photo.isNotEmpty
+            child: profileData.photo != ''
                 ? Image.network(profileData.photo)
                 : const SizedBox.shrink(),
             borderRadius: BorderRadius.circular(50),
@@ -218,7 +218,9 @@ class _PhotoWidget extends StatelessWidget {
     return GestureDetector(
       child: Hero(
         tag: 'tag$index',
-        child: Image.network(minPhotoUrl),
+        child: minPhotoUrl != ''
+            ? Image.network(minPhotoUrl)
+            : const SizedBox.shrink(),
       ),
       onTap: () {
         Navigator.push<FullScreenPhotoWidget>(
@@ -252,7 +254,7 @@ class FullScreenPhotoWidget extends StatelessWidget {
             child: InteractiveViewer(
               maxScale: 2,
               minScale: 1,
-              child: Image.network(url),
+              child: url != '' ? Image.network(url) : const SizedBox.shrink(),
             ),
           ),
         ),
