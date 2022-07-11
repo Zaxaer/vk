@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:vk_example/widgets/main_screen_vk/news_feed/news_feed_model.dart';
 
@@ -37,7 +36,9 @@ class _NewsFeedWidgetState extends State<NewsFeedWidget> {
               onPressed: () => model.exitAuthScreen(context),
             ),
           ]),
-      body: const LentaScrollViewWidget(),
+      body: model.newsFeedData.isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : const LentaScrollViewWidget(),
     );
   }
 }
@@ -50,14 +51,15 @@ class LentaScrollViewWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<NewsFeedWidgetViewModel>();
-    final url = model.newsFeed?.response.nextFrom ?? '';
+    final newsFeedData =
+        context.select((NewsFeedWidgetViewModel value) => value.newsFeedData);
     return RefreshIndicator(
       onRefresh: () => model.refreshListFeed(),
       child: ListView.builder(
-        itemCount: model.item.length,
+        itemCount: newsFeedData.lenght,
         padding: EdgeInsets.zero,
         itemBuilder: (BuildContext context, int index) {
-          model.showNextNewsFeed(index, url);
+          model.showNextNewsFeed(index, newsFeedData.nextForm);
           return NewsFeedPostWidget(
             index: index,
           );
@@ -76,15 +78,8 @@ class NewsFeedPostWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String photo = '';
-    final model = context.watch<NewsFeedWidgetViewModel>().item[index];
-    final image =
-        model.attachments?.where((element) => element.type == 'photo').toList();
-    if (image == null || image.isEmpty) {
-      photo = '';
-    } else {
-      photo = image.first.photo?.sizes?.last.url ?? '';
-    }
+    final newsFeedData =
+        context.select((NewsFeedWidgetViewModel value) => value.newsFeedData);
     return Column(
       children: [
         Container(
@@ -100,14 +95,14 @@ class NewsFeedPostWidget extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Text(
-                  model.text ?? '',
+                  newsFeedData.mainText,
                   style: const TextStyle(fontSize: 15, color: Colors.black),
                 ),
               ),
             ],
           ),
         ),
-        ImageNewsFeedWidget(url: photo),
+        ImageNewsFeedWidget(url: newsFeedData.photo),
         const SizedBox(height: 10),
         Row(
           children: [
@@ -119,7 +114,7 @@ class NewsFeedPostWidget extends StatelessWidget {
             ),
             const SizedBox(width: 10),
             Text(
-              (model.likes?.count ?? '').toString(),
+              (newsFeedData.likeCount),
               style: const TextStyle(color: Colors.grey, fontSize: 25),
             ),
           ],
@@ -151,57 +146,46 @@ class PostNameWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<NewsFeedWidgetViewModel>();
-    final postName = model.item[index].sourceId ?? 0;
-    final dateFormat = (model.item[index].date ?? 0) * 1000;
-    final dateTime = DateTime.fromMillisecondsSinceEpoch(dateFormat);
-    var date = DateFormat('dd/MM/yyyy, HH:mm').format(dateTime);
-    if (postName > 0) {
-      final postFriend = model.profile;
-      final post =
-          postFriend.where((element) => element.id == postName).toList();
-
+    final newsFeedData =
+        context.select((NewsFeedWidgetViewModel value) => value.newsFeedData);
+    if (newsFeedData.sourceId > 0) {
       return Row(
         children: [
           SizedBox(
             height: 50,
             width: 50,
             child: ClipRRect(
-              child: post.first.photo_50 != null || post.first.photo_50 != ''
-                  ? Image.network(post.first.photo_50 ?? '')
+              child: newsFeedData.newsFeedProfileData.photo != ''
+                  ? Image.network(newsFeedData.newsFeedProfileData.photo)
                   : const SizedBox.shrink(),
               borderRadius: BorderRadius.circular(50),
             ),
           ),
           const SizedBox(width: 10),
           Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text('${post.first.firstName}'),
+            Text(newsFeedData.newsFeedProfileData.postName),
             const SizedBox(height: 10),
           ])
         ],
       );
     } else {
-      final postGroup = model.groups;
-      final post = postGroup
-          .where((element) => (element.id! * (-1)) == postName)
-          .toList();
       return Row(
         children: [
           SizedBox(
             height: 50,
             width: 50,
             child: ClipRRect(
-              child: post.first.photo_50 != null || post.first.photo_50 != ''
-                  ? Image.network(post.first.photo_50 ?? '')
+              child: newsFeedData.newsFeedGroupsData.photo != ''
+                  ? Image.network(newsFeedData.newsFeedGroupsData.photo)
                   : const SizedBox.shrink(),
               borderRadius: BorderRadius.circular(50),
             ),
           ),
           const SizedBox(width: 10),
           Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text('${post.first.name}'),
+            Text(newsFeedData.newsFeedGroupsData.postName),
             const SizedBox(height: 10),
-            Text(date),
+            Text(newsFeedData.data),
           ])
         ],
       );

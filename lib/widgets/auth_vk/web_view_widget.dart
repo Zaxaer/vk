@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:vk_example/domain/api_client/api_client.dart';
+import 'package:vk_example/domain/configuration/configuration.dart';
 import 'package:vk_example/widgets/auth_vk/web_view_model.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -13,7 +13,7 @@ class WebViewWidget extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: WebView(
-          initialUrl: ApiClient.authVkJoin,
+          initialUrl: Configuration.authVkJoin,
           navigationDelegate: (NavigationRequest navigation) async {
             final uri = Uri.tryParse(navigation.url);
             if (uri == null ||

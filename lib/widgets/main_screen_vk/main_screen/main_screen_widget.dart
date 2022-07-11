@@ -20,16 +20,17 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
     });
   }
 
-  final List<Widget> _widgetBody = <Widget>[
-    _screenFactory.makeNewsFeed(),
-    _screenFactory.makeMyListFriend(),
-    _screenFactory.makeProfile(),
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: _widgetBody.elementAt(_selectedIndex),
+        body: IndexedStack(
+          index: _selectedIndex,
+          children: [
+            _screenFactory.makeNewsFeed(),
+            _screenFactory.makeMyListFriend(),
+            _screenFactory.makeProfile(),
+          ],
+        ),
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
           items: const <BottomNavigationBarItem>[

@@ -22,163 +22,139 @@ class _ProfileScreenWidgetState extends State<ProfileScreenWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<ProfileViewModel>();
-    final info = model.userInfo?.response.first;
-    final firstName = info?.facultyName ?? '';
-    final lastName = info?.lastName ?? '';
+    final profileData =
+        context.select((ProfileViewModel value) => value.profileData);
     return Scaffold(
       appBar: AppBar(
-        actionsIconTheme: const IconThemeData(color: Colors.blue),
         title: Text(
-          '$firstName $lastName',
+          '${profileData.firstName} ${profileData.lastName}',
           style: const TextStyle(
             color: Colors.black,
-            fontSize: 20,
           ),
         ),
       ),
-      body: RefreshIndicator(
-        onRefresh: () => model.loadInfo(),
-        child: const SingleChildScrollView(
-          physics: AlwaysScrollableScrollPhysics(),
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-            child: ProfileListInfo(),
-          ),
+      body: profileData.isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : const _BodyWidget(),
+    );
+  }
+}
+
+class _BodyWidget extends StatelessWidget {
+  const _BodyWidget({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final model = context.read<ProfileViewModel>();
+    return RefreshIndicator(
+      onRefresh: () => model.loadProfileInfo(),
+      child: const SingleChildScrollView(
+        physics: AlwaysScrollableScrollPhysics(),
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+          child: _ProfileListInfoWidget(),
         ),
       ),
     );
   }
 }
 
-class ProfileListInfo extends StatelessWidget {
-  const ProfileListInfo({
+class _ProfileListInfoWidget extends StatelessWidget {
+  const _ProfileListInfoWidget({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
       children: const [
-        PhotoAndName(),
+        _PhotoAndNameWidget(),
         SizedBox(height: 15),
-        ProfileInfo(),
+        _ProfileInfoWidget(),
         SizedBox(height: 15),
         Center(
-            child: Text(
-          'Фотографии',
-          style: TextStyle(fontSize: 20),
-        )),
+          child: Text(
+            'Фотографии',
+            style: TextStyle(fontSize: 20),
+          ),
+        ),
         SizedBox(height: 15),
-        PhotoView(),
+        _PhotoListWidget(),
       ],
     );
   }
 }
 
-class PhotoAndName extends StatelessWidget {
-  final Map<String, dynamic>? map;
-  const PhotoAndName({
-    Key? key,
-    this.map,
-  }) : super(key: key);
+class _PhotoAndNameWidget extends StatelessWidget {
+  const _PhotoAndNameWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<ProfileViewModel>();
-    final info = model.userInfo?.response.first;
-    final firstName = info?.facultyName ?? '';
-    final lastName = info?.lastName ?? '';
-    final photo = info?.photo_100;
+    final profileData =
+        context.select((ProfileViewModel value) => value.profileData);
     return Row(
       children: [
         SizedBox(
           height: 100,
           width: 100,
           child: ClipRRect(
-            child:
-                photo != null ? Image.network(photo) : const SizedBox.shrink(),
+            child: profileData.photo.isNotEmpty
+                ? Image.network(profileData.photo)
+                : const SizedBox.shrink(),
             borderRadius: BorderRadius.circular(50),
           ),
         ),
         const SizedBox(width: 10),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              '$firstName $lastName',
-              style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
-            ),
-            const SizedBox(height: 10),
-            const StatusProfile()
-          ],
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                '${profileData.firstName} ${profileData.lastName}',
+                style: const TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 20,
+                ),
+              ),
+            ],
+          ),
         )
       ],
     );
   }
 }
 
-class StatusProfile extends StatelessWidget {
-  const StatusProfile({
-    Key? key,
-  }) : super(key: key);
+class _ProfileInfoWidget extends StatelessWidget {
+  const _ProfileInfoWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<ProfileViewModel>().userInfo?.response.first;
-    if (model?.online == 0) {
-      return const Text(
-        'Offline',
-        style: TextStyle(
-            fontWeight: FontWeight.w400, fontSize: 18, color: Colors.grey),
-      );
-    }
-    return const Text(
-      'Online',
-      style: TextStyle(
-          fontWeight: FontWeight.w400, fontSize: 18, color: Colors.blue),
+    final profileData =
+        context.select((ProfileViewModel value) => value.profileData);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        _TextInfoWidget(textInfo: 'Пол', textGet: profileData.sex),
+        _TextInfoWidget(textInfo: 'Дата рождения', textGet: profileData.bdate),
+        _TextInfoWidget(textInfo: 'Страна', textGet: profileData.country),
+        _TextInfoWidget(textInfo: 'Город', textGet: profileData.city),
+        _TextInfoWidget(textInfo: 'Интересы', textGet: profileData.interests),
+        _TextInfoWidget(textInfo: 'Музыка', textGet: profileData.music),
+        _TextInfoWidget(textInfo: 'Фильмы', textGet: profileData.movies),
+        _TextInfoWidget(textInfo: 'Книги', textGet: profileData.games),
+      ],
     );
   }
 }
 
-class ProfileInfo extends StatelessWidget {
-  const ProfileInfo({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    String? sex = '';
-    final model = context.watch<ProfileViewModel>().userInfo?.response.first;
-    switch (model?.sex) {
-      case (1):
-        sex = 'Жениский';
-        break;
-      case (2):
-        sex = 'Мужской';
-        break;
-      case (0):
-        sex = 'Не выбран';
-    }
-    return Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
-      TextInfo(textInfo: 'Пол', textGet: sex),
-      TextInfo(textInfo: 'Дата рождения', textGet: model?.bdate),
-      TextInfo(textInfo: 'Страна', textGet: model?.country?.title),
-      TextInfo(textInfo: 'Город', textGet: model?.city?.title),
-      TextInfo(textInfo: 'Интересы', textGet: model?.interests),
-      TextInfo(textInfo: 'Музыка', textGet: model?.music),
-      TextInfo(textInfo: 'Фильмы', textGet: model?.movies),
-      TextInfo(textInfo: 'Книги', textGet: model?.games),
-    ]);
-  }
-}
-
-class TextInfo extends StatelessWidget {
+class _TextInfoWidget extends StatelessWidget {
   final String? textInfo;
   final String? textGet;
 
-  const TextInfo({Key? key, required this.textInfo, required this.textGet})
+  const _TextInfoWidget(
+      {Key? key, required this.textInfo, required this.textGet})
       : super(key: key);
 
   @override
@@ -192,22 +168,19 @@ class TextInfo extends StatelessWidget {
             '$textInfo: $textGet',
             style: const TextStyle(fontSize: 20),
           ),
-          const Divider(
-            color: Colors.grey,
-            height: 1,
-          )
         ],
       ),
     );
   }
 }
 
-class PhotoView extends StatelessWidget {
-  const PhotoView({Key? key}) : super(key: key);
+class _PhotoListWidget extends StatelessWidget {
+  const _PhotoListWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<ProfileViewModel>();
+    final friendPhoto =
+        context.select((ProfileViewModel value) => value.friendPhoto);
     return Container(
       decoration: const BoxDecoration(
         border: Border(
@@ -221,57 +194,49 @@ class PhotoView extends StatelessWidget {
             crossAxisCount: 2,
           ),
           scrollDirection: Axis.horizontal,
-          itemCount: model.userPhoto?.response.count ?? 0,
+          itemCount: friendPhoto?.response.items?.length ?? 0,
           itemBuilder: (BuildContext context, int index) {
             return Padding(
               padding: const EdgeInsets.all(2.0),
-              child: Photo(index: index),
+              child: _PhotoWidget(index: index),
             );
           }),
     );
   }
 }
 
-class Photo extends StatelessWidget {
+class _PhotoWidget extends StatelessWidget {
   final int index;
-  const Photo({Key? key, required this.index}) : super(key: key);
+  const _PhotoWidget({Key? key, required this.index}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final model = context
-            .watch<ProfileViewModel>()
-            .userPhoto
-            ?.response
-            .items?[index]
-            .sizes?[2]
-            .url ??
-        '';
-    final modelMax = context
-            .watch<ProfileViewModel>()
-            .userPhoto
-            ?.response
-            .items?[index]
-            .sizes?[6]
-            .url ??
-        '';
-
+    final minPhotoUrl =
+        context.select((ProfileViewModel value) => value.minPhotoUrl(index));
+    final maxPhotoUrl =
+        context.select((ProfileViewModel value) => value.maxPhotoUrl(index));
     return GestureDetector(
       child: Hero(
         tag: 'tag$index',
-        child: Image.network(model),
+        child: Image.network(minPhotoUrl),
       ),
       onTap: () {
-        Navigator.push<DetailScreen>(context, MaterialPageRoute(builder: (_) {
-          return DetailScreen(url: modelMax);
-        }));
+        Navigator.push<FullScreenPhotoWidget>(
+          context,
+          MaterialPageRoute(
+            builder: (_) {
+              return FullScreenPhotoWidget(url: maxPhotoUrl);
+            },
+          ),
+        );
       },
     );
   }
 }
 
-class DetailScreen extends StatelessWidget {
+class FullScreenPhotoWidget extends StatelessWidget {
   final String url;
-  const DetailScreen({Key? key, required this.url}) : super(key: key);
+  const FullScreenPhotoWidget({Key? key, required this.url}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -279,19 +244,18 @@ class DetailScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.black,
       ),
-      body: GestureDetector(
-        child: Container(
-          color: Colors.black,
-          child: Center(
-            child: Hero(
-              tag: 'tag',
+      body: Container(
+        color: Colors.black,
+        child: Center(
+          child: Hero(
+            tag: 'tag',
+            child: InteractiveViewer(
+              maxScale: 2,
+              minScale: 1,
               child: Image.network(url),
             ),
           ),
         ),
-        onTap: () {
-          Navigator.pop(context);
-        },
       ),
     );
   }
